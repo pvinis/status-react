@@ -134,8 +134,8 @@
     :on-press  #(re-frame/dispatch [:multiaccounts.ui/profile-picture-show-to-switched id])}])
 
 (views/defview profile-pic-show-to []
-  (views/letsubs [{:keys [profile-pictures-show-to]} [:multiaccount/profile-pictures-show-to]]
+  (views/letsubs [{:keys [profile-pictures-show-to]} [:multiaccount]]
     [react/view {:margin-top 8}
-      [radio-item constants/profile-pictures-show-to-everyone profile-pictures-show-to]
-      [radio-item constants/profile-pictures-show-to-contacts-only profile-pictures-show-to]
-      [radio-item constants/profile-pictures-show-to-none profile-pictures-show-to]]))
+     [radio-item constants/profile-pictures-show-to-everyone profile-pictures-show-to]
+     [radio-item constants/profile-pictures-show-to-contacts-only profile-pictures-show-to]
+     [radio-item constants/profile-pictures-show-to-none profile-pictures-show-to]]))
