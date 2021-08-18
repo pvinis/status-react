@@ -5,9 +5,11 @@
             [status-im.ui.components.radio :as radio]
             [status-im.ui.components.react :as react]
             [status-im.utils.platform :as platform]
-            ["react-native" :as react-native]))
+            ["react-native" :as react-native]
+            ["react-native-bidirectional-list" :refer [BidirectionalList]]))
 
-(def flat-list-class (reagent/adapt-react-class (.-FlatList react-native)))
+(def flat-list-class (reagent/adapt-react-class BidirectionalList))
+;(def flat-list-class (reagent/adapt-react-class (.-FlatList react-native)))
 (def section-list-class (reagent/adapt-react-class (.-SectionList react-native)))
 
 ;;TODO THIS NAMESPACE is DEPRECATED, use status-im.ui.components.list-item.views
