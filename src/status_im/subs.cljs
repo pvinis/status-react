@@ -155,8 +155,6 @@
 ;;wallet
 (reg-root-key-sub :wallet :wallet)
 (reg-root-key-sub :prices :prices)
-(reg-root-key-sub :collectibles :collectibles)
-(reg-root-key-sub :wallet/all-tokens :wallet/all-tokens)
 (reg-root-key-sub :prices-loading? :prices-loading?)
 (reg-root-key-sub :wallet.transactions :wallet.transactions)
 (reg-root-key-sub :wallet/custom-token-screen :wallet/custom-token-screen)
@@ -173,6 +171,8 @@
 (reg-root-key-sub :wallet/fast-base-fee :wallet/fast-base-fee)
 (reg-root-key-sub :wallet/current-priority-fee :wallet/current-priority-fee)
 (reg-root-key-sub :wallet/transactions-management-enabled? :wallet/transactions-management-enabled?)
+(reg-root-key-sub :wallet/opensea-collections :wallet/opensea-collections)
+(reg-root-key-sub :wallet/opensea-assets :wallet/opensea-assets)
 ;;commands
 (reg-root-key-sub :commands/select-account :commands/select-account)
 
@@ -763,12 +763,6 @@
          false))))
 
 ;;CHAT ==============================================================================================================
-
-(re-frame/reg-sub
- :get-collectible-token
- :<- [:collectibles]
- (fn [collectibles [_ {:keys [symbol token]}]]
-   (get-in collectibles [(keyword symbol) (js/parseInt token)])))
 
 (re-frame/reg-sub
  :chats/chat
@@ -1815,6 +1809,18 @@
                         (string/lower-case search-filter))
                favs)))))
 
+(re-frame/reg-sub
+ :wallet/opensea-collection
+ :<- [:wallet/opensea-collections]
+ (fn [all-collections [_ address]]
+   (get all-collections (string/lower-case address) [])))
+
+(re-frame/reg-sub
+ :wallet/opensea-assets-by-collection-and-address
+ :<- [:wallet/opensea-assets]
+ (fn [all-assets [_ address collectible-slug]]
+   (get-in all-assets [address collectible-slug] [])))
+
 ;;ACTIVITY CENTER NOTIFICATIONS ========================================================================================
 
 (defn- group-notifications-by-date
@@ -2096,14 +2102,6 @@
  :wallet.request/transaction
  :<- [:wallet]
  :request-transaction)
-
-(re-frame/reg-sub
- :screen-collectibles
- :<- [:collectibles]
- :<- [:get-screen-params]
- (fn [[collectibles {:keys [symbol]}]]
-   (when-let [v (get collectibles symbol)]
-     (mapv #(assoc (second %) :id (first %)) v))))
 
 ;;UI ==============================================================================================================
 

@@ -211,6 +211,37 @@
  :wallet/get-tokens-balances
  get-token-balances)
 
+(fx/defn opensea-collection-fetch-success
+  {:events [::opensea-collection-fetch-success]}
+  [{:keys [db]} address collection]
+  {:db (assoc-in db [:wallet/opensea-collections address] collection)})
+
+(fx/defn get-opensea-collections
+  [{:keys [db]}]
+  (let [addresses (map (comp string/lower-case :address)
+                       (get db :multiaccount/accounts))]
+    {::json-rpc/call (map (fn [address]
+                            {:method "wallet_getOpenseaCollectionsByOwner"
+                             :params [address]
+                             :on-error (partial prn :---error---> address)
+                             :on-success #(re-frame/dispatch [::opensea-collection-fetch-success address %])})
+                          addresses)}
+    ))
+
+(fx/defn opensea-assets-fetch-success
+  {:events [::opensea-assets-fetch-success]}
+  [{:keys [db]} address collectible-slug assets]
+  {:db (assoc-in db [:wallet/opensea-assets address collectible-slug] assets)})
+
+(fx/defn get-opensea-assets-by-owner-and-collection
+  {:events [::get-opensea-assets-by-owner-and-collection]}
+  [_ address collectible-slug limit]
+  (prn collectible-slug address limit)
+  {::json-rpc/call [{:method     "wallet_getOpenseaAssetsByOwnerAndCollection"
+                     :params     [address collectible-slug limit]
+                     :on-error   (partial prn :----err-assets---->)
+                     :on-success #(re-frame/dispatch [::opensea-assets-fetch-success address collectible-slug %])}]})
+
 (defn rpc->token [tokens]
   (reduce (fn [acc {:keys [address] :as token}]
             (assoc acc

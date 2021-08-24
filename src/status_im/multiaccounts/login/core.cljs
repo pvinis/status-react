@@ -106,6 +106,7 @@
    (wallet/initialize-tokens custom-tokens)
    (wallet/initialize-favourites favourites)
    (wallet/get-pending-transactions)
+   (wallet/get-opensea-collections)
    (cond (and new-account?
               (not scan-all-tokens?))
          (wallet/set-zero-balances (first accounts))

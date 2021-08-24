@@ -44,7 +44,9 @@
       [icons/icon :main-icons/close-circle {:color colors/gray}]]]]
    [react/view
     [react/i18n-text {:style styles/no-chats-text :key :chat-and-transact}]]
-   [invite/button]
+
+   ;; Shivek: Check why this is throwing up...
+   ;; [invite/button]
    [react/view {:align-items :center}
     [react/view {:style (styles/hr-wrapper)}]
     [react/i18n-text {:style (styles/or-text) :key :or}]]
