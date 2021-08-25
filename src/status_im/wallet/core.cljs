@@ -236,7 +236,6 @@
 (fx/defn get-opensea-assets-by-owner-and-collection
   {:events [::get-opensea-assets-by-owner-and-collection]}
   [_ address collectible-slug limit]
-  (prn collectible-slug address limit)
   {::json-rpc/call [{:method     "wallet_getOpenseaAssetsByOwnerAndCollection"
                      :params     [address collectible-slug limit]
                      :on-error   (partial prn :----err-assets---->)

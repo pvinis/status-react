@@ -83,23 +83,38 @@
   (views/letsubs [data [:wallet.transactions.history/screen address]]
     [history/history-list data address]))
 
-(defn nft-assets [address collectible-slug]
+(defn nft-assets-skeleton [num-assets]
+  [:<>
+   (for [i (range num-assets)]
+     ^{:key i}
+     [react/view {:style {:width         "48%"
+                          :margin-bottom 16}}
+      [react/view {:style  {:flex          1
+                            :aspect-ratio  1
+                            :border-width  1
+                            :background-color "#EEEEEE"
+                            :border-color  "#EEF2F5"
+                            :border-radius 16}}]])])
+
+(defn nft-assets [{:keys [num-assets address collectible-slug]}]
   (let [assets (<sub [:wallet/opensea-assets-by-collection-and-address address collectible-slug])]
     [react/view {:flex            1
                  :flex-wrap       :wrap
                  :justify-content :space-between
                  :flex-direction  :row
                  :style           {:padding-horizontal 16}}
-     (for [asset assets]
-       ^{:key (:id asset)}
-       [react/view {:style {:width         "48%"
-                            :margin-bottom 16}}
-        [react/image {:style  {:flex          1
-                               :aspect-ratio  1
-                               :border-width  1
-                               :border-color  "#EEF2F5"
-                               :border-radius 16}
-                      :source {:uri (:image_url asset)}}]])]))
+     (if (seq assets)
+       (for [asset assets]
+         ^{:key (:id asset)}
+         [react/view {:style {:width         "48%"
+                              :margin-bottom 16}}
+          [react/image {:style  {:flex          1
+                                 :aspect-ratio  1
+                                 :border-width  1
+                                 :border-color  "#EEF2F5"
+                                 :border-radius 16}
+                        :source {:uri (:image_url asset)}}]])
+       [nft-assets-skeleton num-assets])]))
 
 (defn nft-collections [address]
   (let [collection (<sub [:wallet/opensea-collection address])]
@@ -126,7 +141,9 @@
                                                     address
                                                     (:slug collectible)
                                                     (:owned_asset_count collectible)])
-         :content              [nft-assets address (:slug collectible)]}])]))
+         :content              [nft-assets {:address          address
+                                            :num-assets       (:owned_asset_count collectible)
+                                            :collectible-slug (:slug collectible)}]}])]))
 
 (views/defview assets-and-collections [address]
   (views/letsubs [{:keys [tokens]} [:wallet/visible-assets-with-values address]
@@ -149,7 +166,9 @@
          [react/view
           (if (seq opensea-collection)
             [nft-collections address]
-            [react/text "No NFTs"])]
+            [react/view {:align-items :center :margin-top 32}
+             [react/text {:style {:color colors/gray}}
+              (i18n/label :t/no-collectibles)]])]
          (= tab :history)
          [transactions address])])))
 
