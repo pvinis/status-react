@@ -7,7 +7,7 @@
             [status-im.multiaccounts.core :as multiaccounts]
             [status-im.multiaccounts.key-storage.core :as multiaccounts.key-storage]
             [status-im.react-native.resources :as resources]
-            [status-im.ui.components.colors :as colors]
+            [quo.design-system.colors :as colors]
             [status-im.ui.components.icons.icons :as icons]
             [status-im.ui.components.react :as react]
             [status-im.ui.components.chat-icon.screen :as chat-icon.screen]

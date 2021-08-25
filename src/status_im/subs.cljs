@@ -41,7 +41,7 @@
             [status-im.utils.currency :as currency]
             [status-im.signing.eip1559 :as eip1559]
             [clojure.set :as clojure.set]
-            [status-im.ui.components.colors :as colors]))
+            [quo.design-system.colors :as colors]))
 
 ;; TOP LEVEL ===========================================================================================================
 

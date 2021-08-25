@@ -4,7 +4,7 @@
             [status-im.ethereum.core :as ethereum]
             [status-im.i18n.i18n :as i18n]
             [status-im.ui.components.animation :as animation]
-            [status-im.ui.components.colors :as colors]
+            [quo.design-system.colors :as colors]
             [status-im.ui.components.icons.icons :as icons]
             [quo.core :as quo]
             [status-im.ui.components.list.views :as list]
@@ -17,8 +17,7 @@
             [status-im.ui.screens.wallet.transactions.views :as history]
             [status-im.utils.money :as money]
             [status-im.wallet.utils :as wallet.utils]
-            [status-im.ui.components.tabs :as tabs]
-            [quo.design-system.colors :as quo-colors])
+            [status-im.ui.components.tabs :as tabs])
   (:require-macros [status-im.utils.views :as views]))
 
 (def state (reagent/atom {:tab :assets}))
@@ -212,7 +211,7 @@
            [icons/icon
             :main-icons/warning
             {:color           :red
-             :container-style {:background-color (quo-colors/get-color :negative-02)
+             :container-style {:background-color (colors/get-color :negative-02)
                                :height           40
                                :width            40
                                :border-radius    20
