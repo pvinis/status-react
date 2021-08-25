@@ -1436,7 +1436,7 @@
  :browser/browsers-vals
  :<- [:browser/browsers]
  (fn [browsers]
-   (vals browsers)))
+   (reverse (vals browsers))))
 
 (re-frame/reg-sub
  :get-current-browser
