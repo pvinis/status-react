@@ -267,9 +267,12 @@
 
 (fx/defn get-node-config-callback
   {:events [::get-node-config-callback]}
-  [{:keys [db] :as cofx} node-config]
-  {:db (assoc-in db [:multiaccount :wakuv2-config]
-                 (get (types/json->clj node-config) :WakuV2Config))})
+  [{:keys [db] :as cofx} node-config-json]
+  (let [node-config (types/json->clj node-config-json)]
+    (log/info "###wakuv2config" (get node-config :WakuV2Config))
+    {:db (-> db
+             (assoc-in [:multiaccount :wakuv2-config]
+                       (get node-config :WakuV2Config)))}))
 
 (fx/defn get-node-config
   [_]

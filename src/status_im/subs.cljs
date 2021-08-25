@@ -1,6 +1,7 @@
 (ns status-im.subs
   (:require [cljs.spec.alpha :as spec]
             [clojure.string :as string]
+            [taoensso.timbre :as log]
             [re-frame.core :as re-frame]
             [status-im.browser.core :as browser]
             [status-im.chat.db :as chat.db]
@@ -72,6 +73,8 @@
 (reg-root-key-sub :mobile-network/remember-choice? :mobile-network/remember-choice?)
 (reg-root-key-sub :qr-modal :qr-modal)
 (reg-root-key-sub :bootnodes/manage :bootnodes/manage)
+(reg-root-key-sub :wakuv2-nodes/manage :wakuv2-nodes/manage)
+(reg-root-key-sub :wakuv2-nodes/list :wakuv2-nodes/list)
 (reg-root-key-sub :networks/current-network :networks/current-network)
 (reg-root-key-sub :networks/networks :networks/networks)
 (reg-root-key-sub :networks/manage :networks/manage)
@@ -1414,9 +1417,10 @@
    manage))
 
 (re-frame/reg-sub
- :manage-bootnode-validation-errors
- :<- [:get-manage-bootnode]
+ :wakuv2-nodes/validation-errors
+ :<- [:wakuv2-nodes/manage]
  (fn [manage]
+   (log/info "###manage" manage)
    (set (keep
          (fn [[k {:keys [error]}]]
            (when error k))
