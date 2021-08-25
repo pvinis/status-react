@@ -1,3 +1,45 @@
+## 1.16
+
+### For iOS and Android
+
+### Features
+
+- EIP-1159 support ([details](https://github.com/status-im/status-react/pull/12369))
+- Hide/show option for accounts in the wallet ([details](https://github.com/status-im/status-react/pull/12438))
+- Delete accounts in wallet ([details](https://github.com/status-im/status-react/pull/12444))
+- Enable keeping database when migrating account to keycard ([details](https://github.com/status-im/status-react/pull/12306))
+- Replies from group chat in activity centre ([details](https://github.com/status-im/status-react/pull/12266))
+- Enable transaction management (alpha, can be enabled in "Advanced") ([details](https://github.com/status-im/status-react/pull/12407))
+
+### Improvements
+
+- Remove clear history from non-public chats ([details](https://github.com/status-im/status-react/pull/12384))
+- Clearing push notifications on read (Android) ([details](https://github.com/status-im/status-react/pull/12464))
+- Enable migration to keycard from signed-in state ([details](https://github.com/status-im/status-react/issues/11778))
+
+### Bug Fixes
+
+#### Chat
+
+- Fix Error when opening 1-1 chat in Activity center for blocked user ([details](https://github.com/status-im/status-react/pull/12399))
+- Long press is long and it makes the message disappear entirely ([details](https://github.com/status-im/status-react/pull/12445))
+- Sort pinned messages by time of pinning ([details](https://github.com/status-im/status-react/pull/12402))
+- Screens with overlapping long usernames ([details](https://github.com/status-im/status-react/pull/12471))
+
+#### Browser (Dapp)
+
+- Fix some token swap errors in Uniswap ([details](https://github.com/status-im/status-react/pull/12417))
+- Update react-native-webview for better SSL handling ([details](https://github.com/status-im/status-react/pull/12409))
+
+#### Keycard
+
+- App freezes until reopening when signing tx with frozen Keycard ([details](https://github.com/status-im/status-react/pull/12473))
+
+#### Wallet
+
+- Allow to add assets with same name ([details](https://github.com/status-im/status-react/pull/12466))
+- Update DATAcoin name ([details](https://github.com/status-im/status-react/pull/12454))
+
 ## 1.15
 
 ### For iOS and Android
