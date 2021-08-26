@@ -99,9 +99,9 @@
   (let [chat-id             (get-in notification [:body :chat :id])
         notification-author (get-in notification [:notificationAuthor :id])]
     (and
-      (not= notification-author (:public-key multiaccount))
-      (or (= app-state "background")
-          (not (chat.models/foreground-chat? cofx chat-id))))))
+     (not= notification-author (:public-key multiaccount))
+     (or (= app-state "background")
+         (not (chat.models/foreground-chat? cofx chat-id))))))
 
 (defn create-notification
   ([notification]
