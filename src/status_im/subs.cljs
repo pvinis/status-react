@@ -173,6 +173,7 @@
 (reg-root-key-sub :wallet/transactions-management-enabled? :wallet/transactions-management-enabled?)
 (reg-root-key-sub :wallet/opensea-collections :wallet/opensea-collections)
 (reg-root-key-sub :wallet/opensea-assets :wallet/opensea-assets)
+(reg-root-key-sub :wallet/current-opensea-asset :wallet/current-opensea-asset)
 ;;commands
 (reg-root-key-sub :commands/select-account :commands/select-account)
 

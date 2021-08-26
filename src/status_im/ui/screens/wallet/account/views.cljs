@@ -16,9 +16,7 @@
             [status-im.ui.screens.wallet.accounts.views :as accounts]
             [status-im.ui.screens.wallet.buy-crypto.views :as buy-crypto]
             [status-im.ui.screens.wallet.transactions.views :as history]
-            [status-im.utils.money :as money]
             [status-im.wallet.core :as wallet]
-            [status-im.wallet.utils :as wallet.utils]
             [status-im.ui.components.tabs :as tabs]
             [quo.react-native :as rn]
             [status-im.utils.handlers :refer [<sub]]
@@ -83,6 +81,24 @@
   (views/letsubs [data [:wallet.transactions.history/screen address]]
     [history/history-list data address]))
 
+(defn opensea-link [address]
+  [react/touchable-highlight
+   {:on-press #(re-frame/dispatch [:browser.ui/open-url (str "https://opensea.io/" address)])}
+   [react/view
+    {:style {:flex             1
+             :padding-horizontal 14
+             :flex-direction   :row
+             :align-items :center
+             :background-color colors/blue-light
+             :height           52}}
+    [icons/tiny-icon
+     :tiny-icons/tiny-external
+     {:color           colors/blue
+      :container-style {:margin-right 5}}]
+    [react/text
+     {:style {:color colors/blue}}
+     (i18n/label :t/check-on-opensea)]]])
+
 (defn nft-assets-skeleton [num-assets]
   [:<>
    (for [i (range num-assets)]
@@ -106,8 +122,10 @@
      (if (seq assets)
        (for [asset assets]
          ^{:key (:id asset)}
-         [react/view {:style {:width         "48%"
-                              :margin-bottom 16}}
+         [react/touchable-opacity
+          {:style    {:width         "48%"
+                      :margin-bottom 16}
+           :on-press #(re-frame/dispatch [::wallet/show-nft-details asset])}
           [react/image {:style  {:flex          1
                                  :aspect-ratio  1
                                  :border-width  1
@@ -145,6 +163,25 @@
                                             :num-assets       (:owned_asset_count collectible)
                                             :collectible-slug (:slug collectible)}]}])]))
 
+(defn nft-details []
+  (let [nft (<sub [:wallet/current-opensea-asset])]
+    [:<>
+     [topbar/topbar
+      {:title    (:name nft)
+       :subtitle (-> nft :collection :name)
+       :right-accessories
+       [{:icon     :main-icons/more
+         :on-press #()}]}]
+     [react/view {:padding 16}
+      [react/image {:source {:uri (:image_url nft)}
+                    :style  {:width         "100%"
+                             :aspect-ratio  1
+                             :border-radius 4
+                             :border-width  1
+                             :border-color "#EEF2F5"}}]
+      [react/text {:style {:margin-top 24}}
+       (:description nft)]]]))
+
 (views/defview assets-and-collections [address]
   (views/letsubs [{:keys [tokens]} [:wallet/visible-assets-with-values address]
                   currency [:wallet/currency]
@@ -163,7 +200,8 @@
             ^{:key (:name item)}
             [accounts/render-asset item nil nil (:code currency)])]
          (= tab :nft)
-         [react/view
+         [:<>
+          [opensea-link address]
           (if (seq opensea-collection)
             [nft-collections address]
             [react/view {:align-items :center :margin-top 32}

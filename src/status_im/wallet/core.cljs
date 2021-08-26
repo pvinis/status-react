@@ -225,8 +225,7 @@
                              :params [address]
                              :on-error (partial prn :---error---> address)
                              :on-success #(re-frame/dispatch [::opensea-collection-fetch-success address %])})
-                          addresses)}
-    ))
+                          addresses)}))
 
 (fx/defn opensea-assets-fetch-success
   {:events [::opensea-assets-fetch-success]}
@@ -240,6 +239,13 @@
                      :params     [address collectible-slug limit]
                      :on-error   (partial prn :----err-assets---->)
                      :on-success #(re-frame/dispatch [::opensea-assets-fetch-success address collectible-slug %])}]})
+
+(fx/defn show-nft-details
+  {:events [::show-nft-details]}
+  [cofx asset]
+  (fx/merge cofx
+            {:db (assoc (:db cofx) :wallet/current-opensea-asset asset)}
+            (navigation/navigate-to :nft-details {})))
 
 (defn rpc->token [tokens]
   (reduce (fn [acc {:keys [address] :as token}]
