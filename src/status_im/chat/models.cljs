@@ -434,7 +434,7 @@
 
 (fx/defn decrease-unviewed-count
   {:events [:chat/decrease-unviewed-count]}
-  [{:keys [db]} chat-id message-ids {:keys [count countWithMentions]}]
+  [{:keys [db]} chat-id {:keys [count countWithMentions]}]
   {:db (-> db
            ;; There might be some other requests being fired,
            ;; so we need to make sure the count has not been set to
