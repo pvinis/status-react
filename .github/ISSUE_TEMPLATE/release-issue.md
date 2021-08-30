@@ -29,7 +29,7 @@ Upgrade (e2e):
 - [ ] 1. Translation PRs is merged before cutting branch (Jinho)
 - [ ] 2. Prepare scope of visible changes based on commits history, started from previous release branch cut ([example]( https://notes.status.im/1.14-release-notes?view))
 - [ ] 3. Update [RELEASES.md](https://github.com/status-im/status-react/blob/develop/RELEASES.md) with release notes (make PR based on previous step)
-- [ ] 4. Create 1.14.0 release branch and get successful builds (doc is [here](https://github.com/status-im/status-react/blob/develop/doc/RELEASE_GUIDE.md) so, testing can be started)
+- [ ] 4. Create release branch, bump VERSION (merge  [pull request](https://github.com/status-im/status-react/pull/12504)  to develop) and get successful release builds (full doc is [here](https://github.com/status-im/status-react/blob/develop/doc/RELEASE_GUIDE.md) so, testing can be started)
 - [ ] 5. Based on release scope, ask for comms (Jonny) 
 - [ ] 6. Make sure that assets (screenshots, video) in stores are up to date. If should be updated, ask @cammellos  for help
 
